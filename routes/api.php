@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ToDoListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,16 @@ Route::apiResource('users', UserController::class, [
 Route::apiResource('users', UserController::class, [
     'as' => 'api',
     'only' => ['update', 'show', 'index', 'destroy'],
+])->middleware(['auth:api']);
+
+Route::apiResource('tasks', TaskController::class, [
+    'as' => 'api',
+    'only' => ['store', 'update', 'show', 'index', 'destroy'],
+])->middleware(['auth:api']);
+
+Route::apiResource('lists', ToDoListController::class, [
+    'as' => 'api',
+    'only' => ['store', 'update', 'show', 'index', 'destroy'],
 ])->middleware(['auth:api']);
 
 Route::group(['prefix' => 'auth'], function () {

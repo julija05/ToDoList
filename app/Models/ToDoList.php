@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class ToDoList extends Model
 {
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

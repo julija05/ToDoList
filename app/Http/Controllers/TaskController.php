@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
-class TaskController extends Controller
+class TaskController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -23,9 +29,9 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        //   
     }
 
     /**
@@ -34,9 +40,15 @@ class TaskController extends Controller
      * @param  \App\Http\Requests\StoreTaskRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTaskRequest $request)
+    public function store(CreateTaskRequest $request)
     {
-        //
+        $request_data = $request->all();
+
+        $request_data['user_id'] = Auth::user()->id;
+        dd($request_data);
+        $task = Task::create($request_data);
+
+        return $this->response(TaskResource::make($task));
     }
 
     /**
