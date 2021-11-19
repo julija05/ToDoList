@@ -11,12 +11,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends BaseController
 {
-    public function store(CreateUserRequest $request): Response
+    public function store(Request $request): Response
     {
-
-        // $this->authorize(__FUNCTION__, User::class);
+        $this->authorize(__FUNCTION__, User::class);
         $request_data = $request->all();
-
         $password = $request_data['password'];
         $request_data['password'] = Hash::make($password);
         $user = User::create($request_data);
@@ -31,6 +29,8 @@ class UserController extends BaseController
 
     public function index(Request $request)
     {
+        $this->authorize(__FUNCTION__, User::class);
+
         $users = User::paginate(self::PAGINATION_PER_PAGE);
 
         return $this->response(UserResource::collection($users));

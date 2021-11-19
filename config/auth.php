@@ -44,6 +44,10 @@ return [
             'driver' => 'passport',
             'provider' => 'users',
         ],
+        'guest' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
     ],
 
     /*

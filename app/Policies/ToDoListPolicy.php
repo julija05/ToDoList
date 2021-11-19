@@ -41,7 +41,12 @@ class ToDoListPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
+    }
+    public function store(User $user)
+    {
+
+        return true;
     }
 
     /**

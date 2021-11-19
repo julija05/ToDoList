@@ -25,7 +25,7 @@ use App\Http\Controllers\ToDoListController;
 Route::apiResource('users', UserController::class, [
     'as' => 'api',
     'only' => ['store'],
-])->middleware('guest');
+])->middleware(['auth:guest']);
 
 Route::apiResource('users', UserController::class, [
     'as' => 'api',

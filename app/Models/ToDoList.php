@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class ToDoList extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'description',
+        'status',
+        'user_id',
+
+    ];
 
     public function user()
     {

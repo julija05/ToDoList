@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TaskResource extends JsonResource
+class ToDoListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +19,6 @@ class TaskResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'status' => $this->status,
-            'toDoList_id' => $this->toDoList_id,
-            'toDoList' => ToDoListResource::make($this->toDoList),
             'user_id' => $this->user_id,
             'user' => UserResource::make($this->user),
         ];

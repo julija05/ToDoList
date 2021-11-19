@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreToDoListRequest;
 use App\Http\Requests\UpdateToDoListRequest;
+use App\Http\Resources\ToDoListResource;
 use App\Models\ToDoList;
+use Illuminate\Support\Facades\Auth;
 
-class ToDoListController extends Controller
+class ToDoListController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -36,7 +38,14 @@ class ToDoListController extends Controller
      */
     public function store(StoreToDoListRequest $request)
     {
-        //
+        // $this->authorize(__FUNCTION__, User::class);
+        $request_data = $request->all();
+
+        $request_data['user_id'] = Auth::user()->id;
+
+        $list = ToDoList::create($request_data);
+
+        return $this->response(ToDoListResource::make($list));
     }
 
     /**

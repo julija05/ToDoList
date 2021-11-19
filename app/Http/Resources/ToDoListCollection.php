@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class TaskResource extends JsonResource
+class ToDoListCollection extends ResourceCollection
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
@@ -19,10 +19,8 @@ class TaskResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'status' => $this->status,
-            'toDoList_id' => $this->toDoList_id,
-            'toDoList' => ToDoListResource::make($this->toDoList),
             'user_id' => $this->user_id,
-            'user' => UserResource::make($this->user),
+            'user' => UserResource::collection($this->user),
         ];
     }
 }

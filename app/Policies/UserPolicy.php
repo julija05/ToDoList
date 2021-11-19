@@ -40,7 +40,12 @@ class UserPolicy
      */
     public function store(User $user)
     {
-        dd('adada');
+        return true;
+    }
+
+    public function index(User $user)
+    {
+        dd('user', $user);
         return true;
     }
 
@@ -53,7 +58,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
