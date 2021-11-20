@@ -6,12 +6,10 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 
-class CreateUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
-    // public function authorize()
-    // {
-    //     return true;
-    // }
+
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -20,14 +18,15 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'string|required|max:255',
-            'last_name' => 'string|required|max:255',
-            'address' => 'string|required|max:255',
-            'phone_number' => 'string|required|min:3|max:50',
-            'email' => 'string|required|email|max:255|unique:users,email',
-            'password' => 'string|min:6|max:255|required|confirmed',
+            'first_name' => 'string|max:255',
+            'last_name' => 'string|max:255',
+            'address' => 'string|max:255',
+            'phone_number' => 'string|min:3|max:50',
+            'email' => 'string|email|max:255|unique:users,email',
+
         ];
     }
+
     /**
      * Return validation errors
      *

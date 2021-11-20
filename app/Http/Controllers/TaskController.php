@@ -42,13 +42,11 @@ class TaskController extends BaseController
      */
     public function store(StoreTaskRequest $request)
     {
-
         $request_data = $request->all();
 
         $request_data['user_id'] = Auth::user()->id;
 
         $task = Task::create($request_data);
-
 
         return $this->response(TaskResource::make($task));
     }

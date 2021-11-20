@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends BaseController
 {
-    public function store(Request $request): Response
+    public function store(CreateUserRequest $request): Response
     {
         $this->authorize(__FUNCTION__, User::class);
         $request_data = $request->all();
@@ -22,9 +23,15 @@ class UserController extends BaseController
         return $this->response(UserResource::make($user));
     }
 
-    public function update()
+    public function update(UpdateUserRequest $request, $id)
     {
-        // 
+
+        $user = User::find($id);
+        $this->authorize(__FUNCTION__, $user);
+        $request_data = $request->except('password', 'status');
+        $user->update($request_data);
+
+        return $this->response(UserResource::make($user));
     }
 
     public function index(Request $request)
@@ -38,6 +45,15 @@ class UserController extends BaseController
 
     public function show(User $user)
     {
+        $this->authorize(__FUNCTION__, $user);
         return $this->response(UserResource::make($user));
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize(__FUNCTION__, $user);
+        $user->delete();
+
+        return $this->response([], [], Response::HTTP_NO_CONTENT);
     }
 }

@@ -45,7 +45,7 @@ class UserPolicy
 
     public function index(User $user)
     {
-        dd('user', $user);
+
         return true;
     }
 
@@ -70,7 +70,18 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        //
+        return $user->id == $model->id;
+    }
+
+    /**
+     * Determine whether the user can view user
+     *
+     * @param User $user
+     * @return bool|void
+     */
+    public function show(User $user, User $model)
+    {
+        return $user->id == $model->id;
     }
 
     /**
@@ -80,9 +91,9 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, User $model)
+    public function destroy(User $user, User $model)
     {
-        //
+        return $user->id == $model->id;
     }
 
     /**

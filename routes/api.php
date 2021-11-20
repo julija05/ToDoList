@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ToDoListController;
+use App\Http\Controllers\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ Route::apiResource('users', UserController::class, [
 
 Route::apiResource('users', UserController::class, [
     'as' => 'api',
-    'only' => ['update', 'show', 'index', 'destroy'],
+    'only' => ['index', 'show', 'update', 'destroy'],
 ])->middleware(['auth:api']);
 
 Route::apiResource('tasks', TaskController::class, [
@@ -40,6 +41,11 @@ Route::apiResource('tasks', TaskController::class, [
 Route::apiResource('lists', ToDoListController::class, [
     'as' => 'api',
     'only' => ['store', 'update', 'show', 'index', 'destroy'],
+])->middleware(['auth:api']);
+
+Route::apiResource('update_password', SettingsController::class, [
+    'as' => 'api',
+    'only' => ['update'],
 ])->middleware(['auth:api']);
 
 Route::group(['prefix' => 'auth'], function () {
