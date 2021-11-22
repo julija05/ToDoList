@@ -20,10 +20,10 @@ class CreateTasksTable extends Migration
             $table->longText('description');
             $table->smallInteger('status')->default(0);
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('toDoList_id');
+            $table->unsignedBigInteger('to_do_list_id');
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('toDoList_id')->references('id')->on('to_do_lists');
+            $table->foreign('to_do_list_id')->references('id')->on('to_do_lists');
         });
     }
 

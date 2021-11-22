@@ -41,13 +41,19 @@ class ToDoListPolicy
      */
     public function create(User $user)
     {
-        return true;
+        // 
     }
     public function store(User $user)
     {
 
         return true;
     }
+    public function show(User $user, ToDoList $model)
+    {
+        return $user->id == $model->user_id;
+    }
+
+
 
     /**
      * Determine whether the user can update the model.
@@ -58,7 +64,7 @@ class ToDoListPolicy
      */
     public function update(User $user, ToDoList $toDoList)
     {
-        //
+        return $user->id == $toDoList->user_id;
     }
 
     /**
@@ -68,9 +74,10 @@ class ToDoListPolicy
      * @param  \App\Models\ToDoList  $toDoList
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, ToDoList $toDoList)
+    public function destroy(User $user, ToDoList $toDoList)
     {
-        //
+
+        return $user->id == $toDoList->user_id;
     }
 
     /**

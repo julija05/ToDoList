@@ -19,10 +19,8 @@ class TaskResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'status' => $this->status,
-            'toDoList_id' => $this->toDoList_id,
-            'toDoList' => ToDoListResource::make($this->toDoList),
+            'to_do_list_id' => $this->to_do_list_id,
             'user_id' => $this->user_id,
-            'user' => UserResource::make($this->user),
         ];
     }
 }

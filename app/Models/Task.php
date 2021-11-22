@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
 {
@@ -13,7 +14,7 @@ class Task extends Model
         'name',
         'description',
         'status',
-        'toDoList_id',
+        'to_do_list_id',
         'user_id',
 
     ];
@@ -28,4 +29,21 @@ class Task extends Model
     {
         return $this->belongsTo(ToDoList::class);
     }
+
+    public function getTask($curTask)
+    {
+        $user = Auth::user();
+        if ($curTask->user_id == $user->id || $curTask->status == 1) {
+
+            return true;
+        }
+        return false;
+    }
+
+    // public function getTasks($id)
+    // {
+    //     // ToDoList::find($id);
+    //     $tasks = $this->toDoList->toArray();
+    //     dd($tasks);
+    // }
 }

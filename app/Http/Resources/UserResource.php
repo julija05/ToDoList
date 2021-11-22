@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ToDoList;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -14,15 +15,21 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return
-            [
-                'id' => $this->id,
-                'first_name' => $this->first_name,
-                'last_name' => $this->last_name,
-                'email' => $this->email,
-                'address' => $this->address,
-                'phone_number' => $this->phone_number,
-                'status' => $this->status,
-            ];
+
+        $users = [];
+        $users['id'] = $this->id;
+        $users['username'] = $this->username;
+        $users['email'] = $this->email;
+        $users['status'] = $this->status;
+        // $users['lists'] = ToDoListResource::make($this->toDoLists)->all();
+        // $users['tasks'] = TaskResource::make($this->tasks)->all();
+
+        return $users;
     }
 }
+// [
+//     'id' => $this->id,
+//     'username' => $this->username,
+//     'email' => $this->email,
+//     'status' => $this->status,
+//  ];

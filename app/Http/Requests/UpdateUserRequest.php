@@ -18,12 +18,8 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'string|max:255',
-            'last_name' => 'string|max:255',
-            'address' => 'string|max:255',
-            'phone_number' => 'string|min:3|max:50',
+            'username' => 'string|max:255|unique:users',
             'email' => 'string|email|max:255|unique:users,email',
-
         ];
     }
 

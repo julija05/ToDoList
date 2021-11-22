@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ToDoList extends Model
 {
@@ -24,6 +26,20 @@ class ToDoList extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        $user = Auth::user();
+
+        return $this->hasMany(Task::class)->where('status', '=', '1')->orWhere('user_id', '=', $user->id);
+    }
+
+
+
+    public function getList($list)
+    {
+        $user = Auth::user();
+        if ($list->user_id == $user->id || $list->status == 1) {
+
+            return true;
+        }
+        return false;
     }
 }

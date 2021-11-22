@@ -20,7 +20,7 @@ class ToDoListCollection extends ResourceCollection
             'description' => $this->description,
             'status' => $this->status,
             'user_id' => $this->user_id,
-            'user' => UserResource::collection($this->user),
+            // 'user' => UserResource::make($this->user),
         ];
     }
 }

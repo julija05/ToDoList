@@ -45,7 +45,6 @@ class UserPolicy
 
     public function index(User $user)
     {
-
         return true;
     }
 

@@ -14,7 +14,7 @@ class UserController extends BaseController
 {
     public function store(CreateUserRequest $request): Response
     {
-        $this->authorize(__FUNCTION__, User::class);
+
         $request_data = $request->all();
         $password = $request_data['password'];
         $request_data['password'] = Hash::make($password);

@@ -21,9 +21,7 @@ class TaskCollection extends ResourceCollection
                 'description' => $this->description,
                 'status' => $this->status,
                 'toDoList_id' => $this->toDoListId,
-                'toDoList' => ToDoListResource::collection($this->toDoList),
                 'user_id' => $this->user_id,
-                'user' => UserResource::collection($this->user),
             ];
     }
 }

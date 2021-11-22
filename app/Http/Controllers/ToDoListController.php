@@ -5,8 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreToDoListRequest;
 use App\Http\Requests\UpdateToDoListRequest;
 use App\Http\Resources\ToDoListResource;
+use App\Models\Task;
 use App\Models\ToDoList;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+
+
 
 class ToDoListController extends BaseController
 {
@@ -15,9 +20,19 @@ class ToDoListController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request): Response
     {
-        //
+        $user = Auth::user();
+
+        $userLists = ToDoList::query()
+            ->with('tasks')
+            ->where('status', '=', '1')
+            ->orWhere('user_id', '=', $user->id)
+            ->paginate(self::PAGINATION_PER_PAGE);
+
+
+        return
+            $this->response(ToDoListResource::collection($userLists));
     }
 
     /**
@@ -54,9 +69,18 @@ class ToDoListController extends BaseController
      * @param  \App\Models\ToDoList  $toDoList
      * @return \Illuminate\Http\Response
      */
-    public function show(ToDoList $toDoList)
+    public function show(ToDoList $toDoList, $id): Response
     {
-        //
+
+        // $this->authorize(__FUNCTION__, $toDoList);
+        $list = ToDoList::find($id);
+
+        if (!$toDoList->getList($list)) {
+            return $this->response([], [], Response::HTTP_NOT_FOUND, 'This module cannot be found');
+        }
+        $list->load('tasks');
+
+        return $this->response(ToDoListResource::make($list));
     }
 
     /**
@@ -77,9 +101,18 @@ class ToDoListController extends BaseController
      * @param  \App\Models\ToDoList  $toDoList
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateToDoListRequest $request, ToDoList $toDoList)
+    public function update(UpdateToDoListRequest $request, $toDoList)
     {
-        //
+        $updateList = ToDoList::find($toDoList);
+
+        $this->authorize(__FUNCTION__, $updateList);
+
+        $request_data = $request->except('user_id');
+
+        $updateList->update($request_data);
+
+        return
+            $this->response(ToDoListResource::make($updateList));
     }
 
     /**
@@ -88,8 +121,37 @@ class ToDoListController extends BaseController
      * @param  \App\Models\ToDoList  $toDoList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ToDoList $toDoList)
+    public function destroy(ToDoList $toDoList, $id)
     {
-        //
+        $deleteList = ToDoList::find($id);
+        $this->authorize(__FUNCTION__, $deleteList);
+
+
+
+        $deleteList->delete();
+
+        return $this->response([], [], Response::HTTP_NO_CONTENT);
     }
 }
+
+
+
+
+  // $td = new ToDoList();
+        // $userLists = $td->getList(1);
+
+        // dd($task);
+        // $lists = new Task();
+
+        // $lists->getTasks(1);
+        // $newLists = [];
+        // $currentUser = Auth::user()->id;
+
+        // foreach ($lists as $list) {
+        //     if ($list['user_id'] === $currentUser && $list['status'] == 0 || $list['status'] == 1) {
+        //         array_push($newLists, $list);
+        //         // dd($newLists);
+
+         // dd($newLists);
+        // $todo = new ToDoList();
+        // $response = $todo->tasks();

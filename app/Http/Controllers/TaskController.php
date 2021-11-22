@@ -19,9 +19,18 @@ class TaskController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request): Response
     {
-        //
+        $user = Auth::user();
+
+        $userTasks = Task::query()
+            ->where('status', '=', '1')
+            ->orWhere('user_id', '=', $user->id)
+            ->paginate(self::PAGINATION_PER_PAGE);
+
+
+        return
+            $this->response(TaskResource::collection($userTasks));
     }
 
     /**
@@ -57,9 +66,16 @@ class TaskController extends BaseController
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show(Task $task): Response
     {
-        //
+        $currTask = $task;
+
+        if (!$task->getTask($currTask)) {
+            return $this->response([], [], Response::HTTP_NOT_FOUND, 'This module cannot be found');
+        }
+
+        return
+            $this->response(TaskResource::make($currTask));
     }
 
     /**
@@ -80,10 +96,21 @@ class TaskController extends BaseController
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(UpdateTaskRequest $request, $task): Response
     {
-        //
+        $updateTask = Task::find($task);
+
+        $this->authorize(__FUNCTION__, $updateTask);
+
+        $request_data = $request->except('user_id');
+
+        $updateTask->update($request_data);
+
+        return
+            $this->response(TaskResource::make($updateTask));
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -91,8 +118,10 @@ class TaskController extends BaseController
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy(Task $task): Response
     {
-        //
+        $this->authorize(__FUNCTION__, $task);
+        $task->delete();
+        return $this->response([], [], Response::HTTP_NO_CONTENT);
     }
 }

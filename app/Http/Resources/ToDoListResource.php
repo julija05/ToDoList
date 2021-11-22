@@ -14,13 +14,23 @@ class ToDoListResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'status' => $this->status,
-            'user_id' => $this->user_id,
-            'user' => UserResource::make($this->user),
-        ];
+        $lists = [];
+        $lists['id'] = $this->id;
+        $lists['name'] = $this->name;
+        $lists['description'] = $this->description;
+        $lists['status'] = $this->status;
+        $lists['user_id'] = $this->user_id;
+        // $lists['user'] = new UserResource($this->user);
+        $lists['tasks'] = TaskResource::make($this->tasks)->all();
+        return $lists;
     }
 }
+
+// return [
+//     'id' => $this->id,
+//     'name' => $this->name,
+//     'description' => $this->description,
+//     'status' => $this->status,
+//     'user_id' => $this->user_id,
+//     'user' => UserResource::make($this->user),
+// ];

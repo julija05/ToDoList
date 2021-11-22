@@ -26,7 +26,7 @@ use App\Http\Controllers\SettingsController;
 Route::apiResource('users', UserController::class, [
     'as' => 'api',
     'only' => ['store'],
-])->middleware(['auth:guest']);
+])->middleware(['guest']);
 
 Route::apiResource('users', UserController::class, [
     'as' => 'api',
@@ -42,6 +42,7 @@ Route::apiResource('lists', ToDoListController::class, [
     'as' => 'api',
     'only' => ['store', 'update', 'show', 'index', 'destroy'],
 ])->middleware(['auth:api']);
+
 
 Route::apiResource('update_password', SettingsController::class, [
     'as' => 'api',

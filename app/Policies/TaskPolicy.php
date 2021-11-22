@@ -53,7 +53,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task)
     {
-        //
+        return $user->id == $task->user_id;
     }
 
     /**
@@ -63,10 +63,17 @@ class TaskPolicy
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Task $task)
+    public function destroy(User $user, Task $task)
     {
-        //
+        return $user->id == $task->user_id;
     }
+
+    public function show(User $user, Task $task)
+    {
+        return $user->id == $task->user_id;
+    }
+
+
 
     /**
      * Determine whether the user can restore the model.
