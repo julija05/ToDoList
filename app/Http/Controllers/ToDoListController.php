@@ -28,6 +28,7 @@ class ToDoListController extends BaseController
             ->with('tasks')
             ->where('status', '=', '1')
             ->orWhere('user_id', '=', $user->id)
+            ->orderBy('created_at', 'DESC')
             ->paginate(self::PAGINATION_PER_PAGE);
 
 
@@ -51,7 +52,7 @@ class ToDoListController extends BaseController
      * @param  \App\Http\Requests\StoreToDoListRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreToDoListRequest $request)
+    public function store(StoreToDoListRequest $request): Response
     {
         // $this->authorize(__FUNCTION__, User::class);
         $request_data = $request->all();
@@ -78,6 +79,7 @@ class ToDoListController extends BaseController
         if (!$toDoList->getList($list)) {
             return $this->response([], [], Response::HTTP_NOT_FOUND, 'This module cannot be found');
         }
+
         $list->load('tasks');
 
         return $this->response(ToDoListResource::make($list));
@@ -101,7 +103,7 @@ class ToDoListController extends BaseController
      * @param  \App\Models\ToDoList  $toDoList
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateToDoListRequest $request, $toDoList)
+    public function update(UpdateToDoListRequest $request, $toDoList): Response
     {
         $updateList = ToDoList::find($toDoList);
 
@@ -110,6 +112,13 @@ class ToDoListController extends BaseController
         $request_data = $request->except('user_id');
 
         $updateList->update($request_data);
+
+        // dd($updateList->tasks);
+        $status = $request_data["status"];
+
+        // if ($status > 0) {
+        Task::where('to_do_list_id', '=', $toDoList)->update(['status' => $status]);
+        // }
 
         return
             $this->response(ToDoListResource::make($updateList));
@@ -133,25 +142,3 @@ class ToDoListController extends BaseController
         return $this->response([], [], Response::HTTP_NO_CONTENT);
     }
 }
-
-
-
-
-  // $td = new ToDoList();
-        // $userLists = $td->getList(1);
-
-        // dd($task);
-        // $lists = new Task();
-
-        // $lists->getTasks(1);
-        // $newLists = [];
-        // $currentUser = Auth::user()->id;
-
-        // foreach ($lists as $list) {
-        //     if ($list['user_id'] === $currentUser && $list['status'] == 0 || $list['status'] == 1) {
-        //         array_push($newLists, $list);
-        //         // dd($newLists);
-
-         // dd($newLists);
-        // $todo = new ToDoList();
-        // $response = $todo->tasks();

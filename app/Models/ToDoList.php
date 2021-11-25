@@ -28,7 +28,7 @@ class ToDoList extends Model
     {
         $user = Auth::user();
 
-        return $this->hasMany(Task::class)->where('status', '=', '1')->orWhere('user_id', '=', $user->id);
+        return $this->hasMany(Task::class)->where('status', '=', '1')->orWhere('user_id', '=', $user->id)->orderBy('ended_at');
     }
 
 

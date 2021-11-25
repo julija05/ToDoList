@@ -20,6 +20,7 @@ class TaskCollection extends ResourceCollection
                 'name' => $this->name,
                 'description' => $this->description,
                 'status' => $this->status,
+                'ended_at' => $this->ended_at,
                 'toDoList_id' => $this->toDoListId,
                 'user_id' => $this->user_id,
             ];

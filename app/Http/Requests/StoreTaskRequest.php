@@ -28,7 +28,8 @@ class StoreTaskRequest extends FormRequest
         return [
             'name' => 'string|required|max:255',
             'description' => 'string|required',
-            'to_do_list_id' => 'integer|exists:to_do_lists,id',
+            'to_do_list_id' => 'integer|exists:to_do_lists,id|required',
+            'ended_at' => 'string|required',
         ];
     }
 

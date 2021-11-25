@@ -20,6 +20,7 @@ class ToDoListResource extends JsonResource
         $lists['description'] = $this->description;
         $lists['status'] = $this->status;
         $lists['user_id'] = $this->user_id;
+        $lists['created_at'] = $this->created_at;
         // $lists['user'] = new UserResource($this->user);
         $lists['tasks'] = TaskResource::make($this->tasks)->all();
         return $lists;

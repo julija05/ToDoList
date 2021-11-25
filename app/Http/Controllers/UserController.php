@@ -14,7 +14,6 @@ class UserController extends BaseController
 {
     public function store(CreateUserRequest $request): Response
     {
-
         $request_data = $request->all();
         $password = $request_data['password'];
         $request_data['password'] = Hash::make($password);
@@ -23,7 +22,7 @@ class UserController extends BaseController
         return $this->response(UserResource::make($user));
     }
 
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateUserRequest $request, $id): Response
     {
 
         $user = User::find($id);
@@ -34,7 +33,7 @@ class UserController extends BaseController
         return $this->response(UserResource::make($user));
     }
 
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $this->authorize(__FUNCTION__, User::class);
 
@@ -43,13 +42,13 @@ class UserController extends BaseController
         return $this->response(UserResource::collection($users));
     }
 
-    public function show(User $user)
+    public function show(User $user): Response
     {
         $this->authorize(__FUNCTION__, $user);
         return $this->response(UserResource::make($user));
     }
 
-    public function destroy(User $user)
+    public function destroy(User $user): Response
     {
         $this->authorize(__FUNCTION__, $user);
         $user->delete();

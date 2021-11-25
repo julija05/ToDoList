@@ -26,8 +26,8 @@ class TaskController extends BaseController
         $userTasks = Task::query()
             ->where('status', '=', '1')
             ->orWhere('user_id', '=', $user->id)
+            ->orderBy("id", "DESC")
             ->paginate(self::PAGINATION_PER_PAGE);
-
 
         return
             $this->response(TaskResource::collection($userTasks));
@@ -49,7 +49,7 @@ class TaskController extends BaseController
      * @param  \App\Http\Requests\StoreTaskRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTaskRequest $request)
+    public function store(StoreTaskRequest $request): Response
     {
         $request_data = $request->all();
 
@@ -105,6 +105,7 @@ class TaskController extends BaseController
         $request_data = $request->except('user_id');
 
         $updateTask->update($request_data);
+
 
         return
             $this->response(TaskResource::make($updateTask));

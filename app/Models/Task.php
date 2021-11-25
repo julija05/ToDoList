@@ -16,6 +16,7 @@ class Task extends Model
         'status',
         'to_do_list_id',
         'user_id',
+        'ended_at'
 
     ];
 

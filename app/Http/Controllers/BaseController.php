@@ -9,7 +9,7 @@ use Illuminate\Support\Arr;
 
 class BaseController extends Controller
 {
-    public const PAGINATION_PER_PAGE = 50;
+    public const PAGINATION_PER_PAGE = 5;
     /**
      * Function responsible for generating JSON response
      * @param array $data
