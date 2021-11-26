@@ -1,7 +1,7 @@
 # README
 
 ## ToDoList
-
+To-Do List is an API made in Laravel that can be used for creating, updating, deleting, and reading To-Do Lists and tasks.
 ### Installation
 
 #### Clone repository
