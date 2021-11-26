@@ -36,6 +36,6 @@
 
     $ php artisan migrate OR $ php artisan migrate:fresh
 
-#### Install passport as required if necessary
+#### Install passport 
 
     $ sail artisan passport:install
